@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const Home = () => {
+
+    useEffect(()=> {
+        (async()=>{
+            let data = await axios({
+                url:"/dummy",
+                method:"GET"
+            })
+            console.log(data.data)
+        })();
+    }, [])
+
     return (
         <>
              <div className=" container d-flex justify-content-center align-items-center  min-vh-100 ">
