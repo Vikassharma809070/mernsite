@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import signup_img from "../Images/Signup.png";
 import {NavLink, useHistory} from "react-router-dom";
+import axios from 'axios';
 
 const Signup = () => {
   const history = useHistory();
@@ -17,10 +18,9 @@ const Signup = () => {
  
 
   const handleinputs=(e)=>{
-      console.log(e);
+      // console.log(e);
       name= e.target.name;
       value= e.target.value;
-//spread Operator
       setUser({...user,[name]:value});
   };
   
@@ -28,24 +28,36 @@ const Signup = () => {
       e.preventDefault();
       const{name,email,phone,work,password,cpassword}=user;
       console.log(user);
-      const res = await fetch("/register",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body: JSON.stringify({
-          name,email,phone,work,password,cpassword
-        })
-      });
-      const data = await res.json();
+      // const res = await fetch("/register",{
+      //   method:"POST",
+      //   headers:{
+      //     "Content-Type":"application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     name,email,phone,work,password,cpassword
+      //   })
+      // });
+      // const data = await res.json();
 
-      if(data.status === 422 || !data) {
-        window.alert("Invalid Registration");
-        console.log("Invalid Registration");
-      } else{
-        window.alert(" Registration Sucessfull");
-        console.log("  Sucessfull Registration");
-        history.push("/login");
+      // if(data.status === 422 || !data) {
+      //   window.alert("Invalid Registration");
+      //   console.log("Invalid Registration");
+      // } else{
+      //   window.alert(" Registration Sucessfull");
+      //   console.log("  Sucessfull Registration");
+      //   history.push("/login");
+      // }
+      try{
+
+        let createUser  = await axios({
+          url:"/register",
+          method:"POST",
+          data:user
+        })
+        // -------here redirect your path --------- TODO:
+        console.log(createUser.data)
+      }catch(error){
+        console.log(error);
       }
   }
  return (
